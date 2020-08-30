@@ -1,0 +1,123 @@
+<odoo>
+
+    <record model="ir.actions.act_window" id="list_courses_action">
+        <field name="name">Courses</field>
+        <field name="res_model">my_module.course</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create Your First Course To See it here
+            </p>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="list_sessions_action">
+        <field name="name">Sessions</field>
+        <field name="res_model">my_module.session</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create Your First Session To See it here
+            </p>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="session_tree_view">
+      <field name="name">Sessions Tree</field>
+      <field name="model">my_module.session</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="course_id"/>
+        </tree>
+      </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="session_form_view">
+      <field name="name">Sessions Form View</field>
+      <field name="model">my_module.session</field>
+      <field name="arch" type="xml">
+        <form string="Session">
+            <sheet>
+
+                <group>
+
+                    <group string="General">
+                        <field name="name"/>
+                        <field name="course_id"/>
+                        <field name="instructor_id"/>
+                    </group>
+
+
+                    <group string="Scheduling">
+                        <field name="start_date"/>
+                        <field name="duration"/>
+                        <field name="seats"/>
+                    </group>
+                    <label for="attendee_ids"/>
+                    <field name="attendee_ids" widgets="many2many"/>
+
+                </group>
+            </sheet>
+
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="course_tree_view">
+      <field name="name">Course Tree View</field>
+      <field name="model">my_module.course</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="responsible_id"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="course_form_view">
+      <field name="name">Course Form View</field>
+      <field name="model">my_module.course</field>
+      <field name="arch" type="xml">
+        <form string="Course Form">
+            <sheet>
+                <group>
+                    <field name="name"/>
+                    <notebook>
+                        <page string="Description">
+                            <field name="description"></field>
+                        </page>
+                          <page string="Resposible">
+                            <field name="responsible_id"></field>
+                        </page>
+
+                        <page string="Sessions">
+
+                            <field name="session_ids">
+                                <tree string="Registered Sessions">
+                                    <field name="name"/>
+                                    <field name="instructor_id"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </group>
+            </sheet>
+
+        </form>
+      </field>
+    </record>
+
+
+
+    <menuitem id="main_my_module_menu" name="My Module"></menuitem>
+
+    <menuitem id="my_module_menu" name="My Module" parent="main_my_module_menu"></menuitem>
+
+    <menuitem id="courses_menu" name="Courses" action="list_courses_action" parent="my_module_menu" ></menuitem>
+
+    <menuitem id="sessions_menu" name="Sessions" action="list_sessions_action" parent="my_module_menu"></menuitem>
+
+
+</odoo>
