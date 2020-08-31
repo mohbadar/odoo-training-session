@@ -14,7 +14,7 @@
     <record model="ir.actions.act_window" id="list_sessions_action">
         <field name="name">Sessions</field>
         <field name="res_model">my_module.session</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,calendar,gantt,graph</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Create Your First Session To See it here
@@ -26,10 +26,44 @@
       <field name="name">Sessions Tree</field>
       <field name="model">my_module.session</field>
       <field name="arch" type="xml">
-        <tree>
-          <field name="name"/>
+        <tree decoration-info="duration&lt;5" decoration-danger="duration&gt;15" editable="bottom">
+          <field name="name" />
           <field name="course_id"/>
+            <field name="duration" invisible="1"/>
+            <field name="taken_seats" widget="progressbar"/>
         </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="session_calendar_view">
+      <field name="name">session.calender</field>
+      <field name="model">my_module.session</field>
+      <field name="arch" type="xml">
+            <calendar string="Session Calender" date_start="start_date" date_stop="end_date" color="instructor_id">
+                <field name="name"/>
+            </calendar>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="session_gantt_view">
+      <field name="name">session.gantt</field>
+      <field name="model">my_module.session</field>
+      <field name="arch" type="xml">
+            <gantt string="Session Gantt" date_start="start_date" date_stop="end_date" default_group_by="instructor_id">
+                <field name="name"/>
+            </gantt>
+      </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="session_graph_view">
+      <field name="name">session.graph</field>
+      <field name="model">my_module.session</field>
+      <field name="arch" type="xml">
+            <graph string="Participation By Course" >
+                <field name="course_id"/>
+                <field name="attendees_count" type="measure"/>
+            </graph>
       </field>
     </record>
 
@@ -54,6 +88,8 @@
                         <field name="start_date"/>
                         <field name="duration"/>
                         <field name="seats"/>
+                        <field name="taken_seats" widget="progressbar"/>
+                        <field name="active"/>
                     </group>
                     <label for="attendee_ids"/>
                     <field name="attendee_ids" widgets="many2many"/>
@@ -76,6 +112,22 @@
       </field>
     </record>
 
+
+
+    <record model="ir.ui.view" id="course_search_view">
+      <field name="name">Course Tree View</field>
+      <field name="model">my_module.course</field>
+      <field name="arch" type="xml">
+        <search>
+          <field name="name"/>
+          <field name="responsible_id"/>
+            <filter name="my_courses" string="My Courses" domain="[('responsible_id', '=', uid)]"/>
+            <group string="Group By">
+                <filter name="by_responsible" string="Responsible" context="{'group_by':'responsible_id'}" />
+            </group>
+        </search>
+      </field>
+    </record>
     <record model="ir.ui.view" id="course_form_view">
       <field name="name">Course Form View</field>
       <field name="model">my_module.course</field>

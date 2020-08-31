@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+
+    <record id="partner_instructor_form_view" model="ir.ui.view">
+        <field name="name">partner.instructor</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page string="Sessions">
+                    <group>
+                        <field name="instructor"/>
+                        <field name="session_ids"/>
+                    </group>
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+
+    <record id="list_contacts_action" model="ir.actions.act_window">
+        <field name="name">Contacts</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <record id="list_contacts_tags_action" model="ir.actions.act_window">
+        <field name="name">Contact Tags</field>
+        <field name="res_model">res.partner.category</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="teacher1" model="res.partner.category">
+        <field name="name">Teacher / Level 1</field>
+    </record>
+
+    <record id="teacher2" model="res.partner.category">
+        <field name="name">Teacher / Level 1</field>
+    </record>
+
+    <menuitem id="configuration_my_module_menu" name="Configuration" parent="main_my_module_menu"></menuitem>
+
+    <menuitem id="contacts_menu" name="Contacts" action="list_contacts_action" parent="configuration_my_module_menu" ></menuitem>
+
+    <menuitem id="contact_tags_menu" name="Contact Tags" action="list_contacts_tags_action" parent="configuration_my_module_menu"></menuitem>
+
+</odoo>
